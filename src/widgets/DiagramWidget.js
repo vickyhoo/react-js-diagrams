@@ -81,16 +81,17 @@ export class DiagramWidget extends React.Component {
       windowListener: window.addEventListener('keydown', event => {
         const selectedItems = diagramEngine.getDiagramModel().getSelectedItems();
         const ctrl = (event.metaKey || event.ctrlKey);
+        const shift = event.shiftKey;
 
         // Select all
-        if (event.keyCode === 65 && ctrl && selectAll) {
+        if (event.keyCode === 65 && ctrl && shift && selectAll) {
           this.selectAll(true);
           event.preventDefault();
           event.stopPropagation();
         }
 
         // Deselect all
-        if (event.keyCode === 68 && ctrl && deselectAll) {
+        if (event.keyCode === 68 && ctrl && shift && deselectAll) {
           this.selectAll(false);
           event.preventDefault();
           event.stopPropagation();
