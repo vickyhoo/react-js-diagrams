@@ -308,7 +308,8 @@ export class DiagramWidget extends React.Component {
     const diagramModel = diagramEngine.getDiagramModel();
     event.preventDefault();
     event.stopPropagation();
-    diagramModel.setZoomLevel(diagramModel.getZoomLevel() + (event.deltaY / 60));
+    const [zoomX, zoomY] = diagramModel.getZoomLevel();
+    diagramModel.setZoomLevel([zoomX + (event.deltaY / 60), zoomY + (event.deltaY / 60)]);
     diagramEngine.enableRepaintEntities([]);
     this.forceUpdate();
   }
@@ -352,11 +353,12 @@ export class DiagramWidget extends React.Component {
       // Translate the items on the canvas
       action.selectionModels.forEach(model => {
         if (model.model instanceof NodeModel || model.model instanceof PointModel) {
+          const [zoomX, zoomY] = diagramModel.getZoomLevel();
           model.model.x = model.initialX + (
-            (event.pageX - this.state.action.mouseX) / (diagramModel.getZoomLevel() / 100)
+            (event.pageX - this.state.action.mouseX) / (zoomX / 100)
           );
           model.model.y = model.initialY + (
-            (event.pageY - this.state.action.mouseY) / (diagramModel.getZoomLevel() / 100)
+            (event.pageY - this.state.action.mouseY) / (zoomY / 100)
           );
         }
       });
@@ -371,12 +373,13 @@ export class DiagramWidget extends React.Component {
       this.setState({ actionType });
     } else if (this.state.action instanceof MoveCanvasAction && canvasDrag) {
       // Translate the actual canvas
+      const [zoomX, zoomY] = diagramModel.getZoomLevel();
       diagramModel.setOffset(
         action.initialOffsetX + (
-          (event.pageX - left - this.state.action.mouseX) / (diagramModel.getZoomLevel() / 100)
+          (event.pageX - left - this.state.action.mouseX) / (zoomX / 100)
         ),
         action.initialOffsetY + (
-          (event.pageY - top - this.state.action.mouseY) / (diagramModel.getZoomLevel() / 100)
+          (event.pageY - top - this.state.action.mouseY) / (zoomY / 100)
         )
       );
       this.setState({ action, actionType: 'canvas-drag' });

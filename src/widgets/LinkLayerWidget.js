@@ -52,11 +52,11 @@ export class LinkLayerWidget extends React.Component {
 
   render() {
     const diagramModel = this.props.diagramEngine.getDiagramModel();
-    const zoom = diagramModel.getZoomLevel();
+    const [zoomX, zoomY] = diagramModel.getZoomLevel();
     const offsetX = diagramModel.getOffsetX();
     const offsetY = diagramModel.getOffsetY();
     const svgStyle = {
-      transform: `scale(${zoom / 100.0}) translate(${offsetX}px, ${offsetY}px)`,
+      transform: `scale(${zoomX / 100.0}, ${zoomY / 100.0}) translate(${offsetX}px, ${offsetY}px)`,
       width: '100%',
       height: '100%'
     };

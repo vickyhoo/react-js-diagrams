@@ -136,9 +136,10 @@ export class DiagramEngine extends BaseEntity {
 
   getRelativeMousePoint(event) {
     const point = this.getRelativePoint(event.pageX, event.pageY);
+    const [zoomX, zoomY] = this.diagramModel.getZoomLevel();
     return {
-      x: (point.x / (this.diagramModel.getZoomLevel() / 100.0)) - this.diagramModel.getOffsetX(),
-      y: (point.y / (this.diagramModel.getZoomLevel() / 100.0)) - this.diagramModel.getOffsetY()
+      x: (point.x / (zoomX / 100.0)) - this.diagramModel.getOffsetX(),
+      y: (point.y / (zoomY / 100.0)) - this.diagramModel.getOffsetY()
     };
   }
 
@@ -161,9 +162,10 @@ export class DiagramEngine extends BaseEntity {
     const sourceElement = this.getNodePortElement(port);
     const sourceRect = sourceElement.getBoundingClientRect();
     const rel = this.getRelativePoint(sourceRect.left,sourceRect.top);
-    const x = (sourceElement.offsetWidth / 2) + rel.x / (this.diagramModel.getZoomLevel() / 100.0) -
+    const [zoomX, zoomY] = this.diagramModel.getZoomLevel();
+    const x = (sourceElement.offsetWidth / 2) + rel.x / (zoomX / 100.0) -
       this.diagramModel.getOffsetX();
-    const y = (sourceElement.offsetHeight / 2) + rel.y / (this.diagramModel.getZoomLevel() / 100.0) -
+    const y = (sourceElement.offsetHeight / 2) + rel.y / (zoomY / 100.0) -
       this.diagramModel.getOffsetY();
 
     return {

@@ -9,7 +9,7 @@ export class DiagramModel extends BaseEntity {
     this.nodes = {};
     this.offsetX = 0;
     this.offsetY = 0;
-    this.zoom = 100;
+    this.zoom = [100, 100];
     this.rendered = false;
   }
 
@@ -91,7 +91,11 @@ export class DiagramModel extends BaseEntity {
   }
 
   setZoomLevel(zoom) {
-    this.zoom = zoom;
+    if (_.isArray(zoom)) {
+      this.zoom = zoom;
+    } else {
+      this.zoom = [zoom, zoom];
+    }
     this.itterateListeners(listener => {
       if (listener.controlsUpdated) {
         listener.controlsUpdated();

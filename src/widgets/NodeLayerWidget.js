@@ -6,10 +6,11 @@ export class NodeLayerWidget extends React.Component {
   render() {
     const { diagramEngine } = this.props;
     const diagramModel = diagramEngine.getDiagramModel();
+    const [zoomX, zoomY] = diagramModel.getZoomLevel();
     const props = {
       className:'node-view',
       style:{
-        transform: `scale(${diagramModel.getZoomLevel() / 100.0}) translate(${diagramModel.getOffsetX()}px, ${diagramModel.getOffsetY()}px)`, // eslint-disable-line
+        transform: `scale(${zoomX / 100.0}, ${zoomY / 100.0}) translate(${diagramModel.getOffsetX()}px, ${diagramModel.getOffsetY()}px)`, // eslint-disable-line
         width: '100%',
         height: '100%'
       }

@@ -9,9 +9,9 @@ export class SelectingAction extends BaseAction {
 
   containsElement(x, y, diagramModel) {
     const { mouseX, mouseX2, mouseY, mouseY2 } = this;
-    const z = diagramModel.getZoomLevel() / 100;
-    const elX = (x + diagramModel.getOffsetX()) * z;
-    const elY = (y + diagramModel.getOffsetY()) * z;
+    const [zx, zy] = diagramModel.getZoomLevel();
+    const elX = (x + diagramModel.getOffsetX()) * (zx / 100);
+    const elY = (y + diagramModel.getOffsetY()) * (zy / 100);
 
     return (
       ((mouseX2 < mouseX) ? elX < mouseX : elX > mouseX) &&
